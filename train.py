@@ -1,8 +1,8 @@
 import argparse
 from torch import nn, optim
-from vae import *
-from loss import *
-from dataloader import *
+from modules.vae import *
+from modules.loss import *
+from data.dataloader import *
 
 
 parser = argparse.ArgumentParser()
