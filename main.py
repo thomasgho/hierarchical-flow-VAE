@@ -1,8 +1,8 @@
 import argparse
-from torch import nn, optim
-from vae import *
-from dataloader import *
-from train import *
+from torch import optim
+from data.dataloader import *
+from modules.vae import *
+from modules.train import *
 
 
 def main(args):
