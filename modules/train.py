@@ -26,7 +26,10 @@ def structural_estimator_test(epoch, structural_estimator_model, structural_esti
             tar_pred = structural_estimator_model(data)
             loss = pred_loss_CE(tar, tar_pred)
             if batch_idx % log_interval == 0:
-                print(f'Epoch:{epoch}, pre-train val prediction loss: {loss.item()}')
+                print('Epoch: {} [{}/{} ({:.0f}%)]\t energetic estimator validation loss: {:.6f}'.format(
+                    epoch, batch_idx * len(data), len(test_loader.dataset),
+                           100. * batch_idx / len(test_loader),
+                           loss.item() / len(data)))
     return loss
 
 # define epoch based energetic trainer
@@ -53,7 +56,10 @@ def energetic_estimator_test(epoch, energetic_estimator_model, energetic_estimat
             tar_pred = energetic_estimator_model(data)
             loss = pred_loss_MSE(tar, tar_pred)
             if batch_idx % log_interval == 0:
-                print(f'Epoch:{epoch}, pre-train val prediction loss: {loss.item()}')
+                print('Epoch: {} [{}/{} ({:.0f}%)]\t energetic estimator validation loss: {:.6f}'.format(
+                    epoch, batch_idx * len(data), len(test_loader.dataset),
+                           100. * batch_idx / len(test_loader),
+                           loss.item() / len(data)))
     return loss
 
 # define epoch based VAE trainer
@@ -71,7 +77,7 @@ def vae_train(epoch, vae_model, vae_optimizer, train_loader, log_interval, devic
         loss.backward()
         vae_optimizer.step()
         if batch_idx % log_interval == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\t Total Loss: {:.6f}'.format(
+            print('Epoch: {} [{}/{} ({:.0f}%)]\t VAE loss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                        100. * batch_idx / len(train_loader),
                        loss.item() / len(data)))
@@ -111,7 +117,7 @@ def pred_train(epoch, structural_estimator_model, energetic_estimator_model, vae
         loss.backward()
         predictor_optimizer.step()
         if batch_idx % log_interval == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\t Total Loss: {:.6f}'.format(
+            print('Epoch: {} [{}/{} ({:.0f}%)]\t predictor loss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                        100. * batch_idx / len(train_loader),
                        loss.item() / len(data)))
