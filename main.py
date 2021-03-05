@@ -33,7 +33,7 @@ def main(args):
 
         vae_model = FlowVAE(input_dim=3600, hidden_dim=200, latent_dim=args.latent_dim, num_blocks=args.num_blocks_vae,
                             num_flows=args.num_flows, dropout=args.dropout_vae, gauss_mix=args.gauss_mix,
-                            num_gauss=args.num_gauss, network='odenet').to(device)
+                            num_gauss=args.num_gauss, network='odenet', tol=args.tol).to(device)
         vae_optimizer = optim.Adam(vae_model.parameters(), lr=1e-5)
 
     elif args.network_type == "ResNet":
@@ -115,7 +115,7 @@ def main(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", help="train/test batch sizee", type=int, default=256)
+    parser.add_argument("--batch_size", help="train/test batch size", type=int, default=256)
     parser.add_argument("--epochs_estim", help="epochs for estimator network", type=int, default=6)
     parser.add_argument("--epochs_vae", help="epochs for VAE", type=int, default=600)
     parser.add_argument("--epochs_pred", help="epochs for predictor network", type=int, default=300)
