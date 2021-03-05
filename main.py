@@ -115,10 +115,10 @@ def main(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", help="echo the string you use here", type=int, default=256)
-    parser.add_argument("--epochs_estim", help="epochs for estimator network", type=int, default=9)
-    parser.add_argument("--epochs_vae", help="epochs for VAE", type=int, default=1000)
-    parser.add_argument("--epochs_pred", help="epochs for predictor network", type=int, default=350)
+    parser.add_argument("--batch_size", help="train/test batch sizee", type=int, default=256)
+    parser.add_argument("--epochs_estim", help="epochs for estimator network", type=int, default=6)
+    parser.add_argument("--epochs_vae", help="epochs for VAE", type=int, default=600)
+    parser.add_argument("--epochs_pred", help="epochs for predictor network", type=int, default=300)
     parser.add_argument("--seed", help="random seed", type=int, default=9)
     parser.add_argument("--log_interval", help="number batches to wait before logging training status", type=int,
                         default=10)
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument("--tol", help="ODE solver tolerance", type=int, default=1e-3)
     parser.add_argument("--lr", help="learning rate", type=int, default=1e-5)
     parser.add_argument("--data_loc", help="data location on drive", default=r'/home/taymaz/Downloads/MP.npy')
-    parser.add_argument("--network_type", help="ResNet or neuralODE", default="ResNet", choices=['ResNet', 'neuralODE'])
+    parser.add_argument("--network_type", help="ResNet or neuralODE", default="neuralODE", choices=['ResNet', 'neuralODE'])
     parser.add_argument("--cuda", help="use CUDA acceleration", default=True, action='store_false')
     args = parser.parse_args()
 
