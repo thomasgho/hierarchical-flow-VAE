@@ -2,8 +2,8 @@ from torch import nn
 import pyro
 import pyro.distributions as dist
 from pyro.distributions.transforms import spline_autoregressive, conditional_spline_autoregressive
-from odenet import *
-from resnet import *
+from modules.odenet import *
+from modules.resnet import *
 
 
 class FlowVAE(nn.Module):
