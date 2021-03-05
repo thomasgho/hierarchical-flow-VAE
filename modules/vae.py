@@ -14,7 +14,7 @@ class FlowVAE(nn.Module):
 
     """
 
-    def __init__(self, input_dim, hidden_dim, latent_dim, num_blocks, num_flows, dropout, gauss_mix=False, num_gauss=14, network='resnet'):
+    def __init__(self, input_dim, hidden_dim, latent_dim, num_blocks, num_flows, dropout, gauss_mix=False, num_gauss=14, tol=1e-3, network='resnet'):
         super(FlowVAE, self).__init__()
 
         self.gaussian_mixture_prior = gauss_mix
