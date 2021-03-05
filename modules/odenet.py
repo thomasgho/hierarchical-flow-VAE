@@ -1,7 +1,7 @@
 import torch
 from torch import nn
-from torchdiffeq import odeint_adjoint as odeint
-
+#from torchdiffeq import odeint_adjoint as odeint
+from torchdiffeq import odeint
 
 class ODEfunc(nn.Module):
     """
