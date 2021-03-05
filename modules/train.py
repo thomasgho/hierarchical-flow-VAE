@@ -1,5 +1,5 @@
 import torch.utils.data
-from loss import *
+from modules.loss import *
 
 
 # define epoch based structural trainer
