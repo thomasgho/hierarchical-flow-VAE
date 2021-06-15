@@ -24,19 +24,20 @@ def loss_fn(X, X_recon, mu_levels, var_levels, trJs):
 
 def train(args):
 
-    # initialise CUDA
-    if args.cuda:
-        device = torch.device("cuda")
-        torch.cuda.empty_cache()
-    else:
-        device = torch.device("cpu")
-
     # load data
     trainloader, testloader = dataloader(args.path, batch_size=args.batch_size)
     dataloaders = {'train': trainloader, 'val': testloader}
 
+    # initialise CUDA
+    if args.cuda:
+        device = torch.device("cuda")
+        torch.set_default_tensor_type(torch.cuda.FloatTensor)
+    else:
+        device = torch.device("cpu")
+        torch.set_default_tensor_type(torch.FloatTensor)
+
     # define model
-    model = VAE(1000, feat_dims=args.feat_dims, z_dims=args.z_dims).to(device)
+    model = VAE(args.in_dim, feat_dims=args.feat_dims, z_dims=args.z_dims, trace_estimator=args.trace).to(device)
 
     # train loop
     for epoch in range(1, args.epochs + 1):
@@ -86,14 +87,16 @@ if __name__ == '__main__':
     parser.add_argument("--path", help="str: path directory of data", type=str, default='/home/taymaz/Documents/materialVAE/data/xrd.txt')
     parser.add_argument("--cuda", help="bool: use CUDA acceleration", default=True, action='store_false')
     parser.add_argument("--batch_size", help="int: train batch size", type=int, default=64)
+    parser.add_argument("--in_dim", help="int: length of 1d input data", type=list, default=1000)
     parser.add_argument("--feat_dims", help="list: dimensionality of channels in VAE architecture e.g. [32, 64, 128]", type=list, default=[32, 64, 128])
     parser.add_argument("--z_dims", help="list: dimensionality of latent variables at each VAE hierarchy e.g. [15, 15, 15]", type=list, default=[15, 15, 15])
+    parser.add_argument("--trace", help="str: trace estimator to use, either 'hutchinson' or 'autograd'", type=str, default='hutchinson')
     parser.add_argument("--epochs", help="int: train epochs", type=int, default=100)
     parser.add_argument("--lr", help="int: ADAM learning rate", type=int, default=1e-5)
     parser.add_argument("--beta", help="int: L2 regularization", type=int, default=0)
     parser.add_argument("--interval", help="int: interval to print batch loss", type=int, default=5)
     args = parser.parse_args()
-    
+
     train(args)
     
     
