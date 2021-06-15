@@ -87,7 +87,7 @@ if __name__ == '__main__':
     parser.add_argument("--path", help="str: path directory of data", type=str, default='/home/taymaz/Documents/materialVAE/data/xrd.txt')
     parser.add_argument("--cuda", help="bool: use CUDA acceleration", default=True, action='store_false')
     parser.add_argument("--batch_size", help="int: train batch size", type=int, default=64)
-    parser.add_argument("--in_dim", help="int: length of 1d input data", type=list, default=1000)
+    parser.add_argument("--in_dim", help="int: length of 1d input data", type=int, default=1000)
     parser.add_argument("--feat_dims", help="list: dimensionality of channels in VAE architecture e.g. [32, 64, 128]", type=list, default=[32, 64, 128])
     parser.add_argument("--z_dims", help="list: dimensionality of latent variables at each VAE hierarchy e.g. [15, 15, 15]", type=list, default=[15, 15, 15])
     parser.add_argument("--trace", help="str: trace estimator to use, either 'hutchinson' or 'autograd'", type=str, default='hutchinson')
