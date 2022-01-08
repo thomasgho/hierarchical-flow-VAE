@@ -31,7 +31,7 @@ class Encoder(nn.Module):
         self.conv_levels = nn.ModuleList([
             nn.Sequential(
                 nn.Conv1d(
-                    in_channels = 1 if feat_dim == feat_dims[0] else feat_dims[i-1],
+                    in_channels = input_dim[0] if feat_dim == feat_dims[0] else feat_dims[i-1],
                     out_channels = feat_dims[i],
                     kernel_size = 6,
                     stride = 2,
@@ -45,13 +45,13 @@ class Encoder(nn.Module):
         self.mu_levels = nn.ModuleList([
             nn.Sequential(
                 nn.Flatten(),
-                GatedDense(feat_dim*(input_dim//(2**(i+1))), z_dim, activation=nn.SiLU()))
+                GatedDense(feat_dim*(input_dim[1]//(2**(i+1))), z_dim, activation=nn.SiLU()))
             for i, (feat_dim, z_dim) in enumerate(zip(feat_dims, z_dims))])
 
         self.var_levels = nn.ModuleList([
             nn.Sequential(
                 nn.Flatten(),
-                GatedDense(feat_dim*(input_dim//(2**(i+1))), z_dim, activation=nn.SiLU()))
+                GatedDense(feat_dim*(input_dim[1]//(2**(i+1))), z_dim, activation=nn.SiLU()))
             for i, (feat_dim, z_dim) in enumerate(zip(feat_dims, z_dims))])
 
     def forward(self, x):
@@ -67,8 +67,8 @@ class Encoder(nn.Module):
 
 
 def test():
-    x = torch.randn((3,1,100))
-    model = Encoder(input_dim=100, z_dims=[15, 15], feat_dims=[32, 64])
+    x = torch.randn((3,8,1000))
+    model = Encoder(input_dim=[8,1000], z_dims=[15, 15], feat_dims=[32, 64])
     z_list, mu_list, var_list = model(x)
     print(z_list.shape)
 
