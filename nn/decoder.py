@@ -43,7 +43,7 @@ class Decoder(nn.Module):
             nn.Sequential(
                 nn.ConvTranspose1d(
                     in_channels = feat_dims[i],
-                    out_channels = 1 if feat_dim == feat_dims[-1] else feat_dims[i+1],
+                    out_channels = output_dim[0] if feat_dim == feat_dims[-1] else feat_dims[i+1],
                     kernel_size = 6,
                     stride = 2,
                     padding = 2,
@@ -55,8 +55,8 @@ class Decoder(nn.Module):
 
         self.reparamd_levels = nn.ModuleList([
             nn.Sequential(
-                GatedDense(z_dim, feat_dim*(output_dim//(2**(len(feat_dims)-i))), activation=nn.SiLU()),
-                nn.Unflatten(1, (feat_dim, output_dim//(2**(len(feat_dims)-i)))))
+                GatedDense(z_dim, feat_dim*(output_dim[1]//(2**(len(feat_dims)-i))), activation=nn.SiLU()),
+                nn.Unflatten(1, (feat_dim, output_dim[1]//(2**(len(feat_dims)-i)))))
             for i, (feat_dim, z_dim) in enumerate(zip(feat_dims, z_dims))])
 
         self.comb_levels = nn.ModuleList([
@@ -77,7 +77,7 @@ class Decoder(nn.Module):
 
 def test():
     x = torch.randn((2, 3, 15))
-    model = Decoder(output_dim=100, z_dims=[15, 15], feat_dims=[64, 32])
+    model = Decoder(output_dim=[1,1000], z_dims=[15, 15], feat_dims=[64, 32])
     pred = model(x)
     print(pred.shape)
 
