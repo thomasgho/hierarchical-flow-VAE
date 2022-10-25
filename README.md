@@ -1,4 +1,2 @@
-# material-VAE
-A deep hierachical flow-based VAE to learn structural symmetries and energetic features of materials from their XRD spectra. 
-
-A work in progress.
+# hierachical-flow-VAE
+A deep hierarchical flow-based VAE. Using continuous normailizing flows (with torchdyn) and a UNet inspired hierarchy for latent levels.
